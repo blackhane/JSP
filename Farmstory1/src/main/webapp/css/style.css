@@ -1,0 +1,428 @@
+*{
+    margin: 0;
+    padding: 0;
+    font: normal 12px '돋움';
+}
+ul,ol {list-style: none;}
+a {text-decoration: none; color: black;}
+input,textarea {outline: none;}
+
+#wrapper {
+    width: 980px;
+    height: auto;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+/*header*/
+header {
+    width: 100%;
+    height: 142px;
+    box-sizing: border-box;
+    background: url(../img/head_top_line.png);
+    background-repeat: no-repeat;
+    text-align: center;
+    position: relative;
+}
+header > a {
+    display: inline-block;
+    margin-top: 20px;
+}
+header > p {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+}
+header > img {
+    position: absolute;
+    top: 55px;
+    right: 0px;
+}
+header > ul {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+}
+header > ul > li {
+    float: left;
+    width: 20%;
+    height: 100%;
+    background: url(../img/head_menu_line.png);
+    background-repeat: no-repeat;
+    background-position: 0 -6px;
+}
+header > ul > li > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 0 6px;
+    position: relative;
+}
+header > ul > li:nth-child(1) > a {background-image: url(../img/head_menu1.png);}
+header > ul > li:nth-child(1) > a:hover {background-image: url(../img/head_menu1_ov.png);}
+header > ul > li:nth-child(2) > a {background-image: url(../img/head_menu2.png);}
+header > ul > li:nth-child(2) > a:hover {background-image: url(../img/head_menu2_ov.png);}
+header > ul > li:nth-child(2) > a > img {
+    position: absolute;
+    top: -15px;
+    right: 60px;
+}
+header > ul > li:nth-child(3) > a {background-image: url(../img/head_menu3.png);}
+header > ul > li:nth-child(3) > a:hover {background-image: url(../img/head_menu3_ov.png);}
+header > ul > li:nth-child(4) > a {background-image: url(../img/head_menu4.png);}
+header > ul > li:nth-child(4) > a:hover {background-image: url(../img/head_menu4_ov.png);}
+header > ul > li:nth-child(5) > a {background-image: url(../img/head_menu5.png);}
+header > ul > li:nth-child(5) > a:hover {background-image: url(../img/head_menu5_ov.png);}
+/*main*/
+main {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+main > div {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+main > .slider {
+    height: 312px;
+    position: relative;
+    overflow: hidden;
+}
+main > .slider > .slide {
+    max-width: 980px;
+    overflow: hidden;
+}
+main > .slider > .slide > img {
+    position: absolute;
+}
+main > .slider > .slide > img:nth-child(1) {
+    left: 0;
+    top: 0;
+}
+main > .slider > .slide > img:nth-child(2) {
+    left: 980px;
+    top: 0;
+}
+main > .slider > .slide > img:nth-child(3) {
+    left: 1960px;
+    top: 0;
+}
+main > .slider > img {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+}
+main > .slider > .banner {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 230px;
+    height: 100%;
+    background: url(../img/main_banner_bg.jpg);
+}
+main > .slider > .banner > img:nth-child(2) {
+    margin-top: -20px;
+    margin-left: 10px;
+}
+main > .slider > .banner > img:nth-child(1) {
+    float: right;
+    margin: 10px;
+}
+main > .slider > .banner > img:nth-child(3) {
+    margin-left: 10px;
+}
+main > .quick {
+    height: 74px;
+    overflow: hidden;
+}
+main > .quick > div {
+    float: left;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+}
+main > .quick > div > a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+main > .quick > div > a {
+    padding-top: 15px;
+    padding-left: 20px;
+}
+main > .quick > div > .sub1 {background: url(../img/main_banner_sub1_bg.jpg);}
+main > .quick > div > .sub2 {background: url(../img/main_banner_sub2_bg.jpg);}
+main > .latest {
+    height: 186px;
+    overflow: hidden;
+}
+main > .latest > div {
+    float: left;
+    width: 33.33%;
+    height: 100%;
+    position: relative;
+}
+main > .latest > div > a {
+    position: absolute;
+    left: 0;
+    top: 16px;
+}
+main > .latest > div > img {
+    position: absolute;
+    left: 0;
+    bottom: 16px;
+}
+main > .latest > div > table {
+    position: absolute;
+    right: 10px;
+    bottom: 16px;
+    color: #6a6a6a;
+}
+main > .latest > div > table tr {}
+main > .latest > div > table tr > td > a {
+    display: block;
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 18px;
+    color: #6a6a6a;;
+}
+main > .info {
+    height: 154px;
+    overflow: hidden;
+    padding: 10px 0;
+    border-top: 2px solid black;
+    box-sizing: border-box;
+}
+main > .info > div {
+    float: left;
+    height: 100%;
+    box-sizing: border-box;
+}
+main > .info > div:nth-child(1) {width: 386px;}
+main > .info > div:nth-child(2) {width: 230px;}
+main > .info > div:nth-child(3) {width: 358px;}
+main > .info > .cs > img:nth-of-type(1){
+    float: left;
+}
+main > .info > .cs > img:nth-of-type(2){
+    float: left;
+    clear: left;
+    margin-top: 16px;
+}
+main > .info > .cs > img:nth-of-type(3){
+    float: left;
+    margin-top: 16px;
+    margin-left: 16px;
+}
+main > .info > .cs > p {
+    float: left;
+    margin-top: 16px;
+    margin-left: 10px;
+    color: #666;
+    line-height: 18px;
+}
+main > .info > .cs > a {
+    display: inline-block;
+    margin-top: 16px;
+}
+main > .info > .cs > img:nth-of-type(4){
+    clear: left;
+    float: left;
+    margin-right: 6px;
+}
+main > .info > .cs > img:nth-of-type(5){
+    float: left;
+    margin-right: 6px;
+}
+main > .info > .cs > img:nth-of-type(6){
+    float: left;
+}
+main > .info > .account {
+    padding-left: 16px;
+    border-left: 1px solid #d7d7d7;
+    border-right: 1px solid #d7d7d7;
+}
+main > .info > .account > img {
+    margin-bottom: 16px;
+}
+main > .info > .account > p {
+    line-height: 18px;
+    color: #666;
+}
+main > .info > .tabs {
+    padding-left: 10px;
+}
+main > .info .tab {
+    border-bottom: 1px solid #aaa;
+}
+main > .info .tab > li {
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+    color: #555;
+    background: #eee;
+    text-align: center;
+    line-height: 50%;
+    border: 1px solid #aaa;
+    border-bottom: none;
+}
+main > .info .tab > li.current {
+    background: #fff;
+    color: #212121;
+}
+main > .info .tab-content {
+    display: none;
+    padding: 10px;
+}
+main > .info .tab-content li > a {
+	color: #666;
+}
+main > .info .tab-content li {
+    border-bottom: 1px solid #d1d1d1;
+    line-height: 26px;
+}
+main > .info .tab-content.current {
+    display: inherit;
+}
+
+/*footer*/
+footer {
+    width: 100%;
+    height: 120px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    background: url(../img/footer_top_line.png);
+    background-repeat: no-repeat;
+}
+footer > p {
+    float: right;
+    font-size: 11px;
+    color: #585858;
+    margin-top: 26px;
+    margin-right: 16px;
+    line-height: 18px;
+}
+footer > p > strong {
+    color: #888;
+    font-weight: bold;
+}
+
+
+/*서브페이지 공통*/
+#sub {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+#sub > div {
+    width: 100%;
+    height: 184px;
+    background: url('../img/sub_top_bg.jpg');
+    position: relative;
+}
+#sub > div > img {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+#sub > section {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+#sub > section > aside {
+    float: left;
+    width: 176px;
+    height: 650px;
+    background: url('../img/sub_aside_bg_line.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+#sub > section > aside > img {
+    margin: 16px;
+}
+#sub > section > aside > ul {
+    width: 175px;
+    height: 233px;
+    background: url('../img/sub_aside_bg_lnb.png');
+    padding-top: 26px;
+    box-sizing: border-box;
+}
+#sub > section > aside > ul > li {
+    width: 100%;
+    height: 29px;
+    margin-bottom: 6px;
+}
+#sub > section > aside > ul > li > a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    font-size: 0;    
+}
+#sub > section > article {
+    float: left;
+    width: 800px;
+    min-height: 650px;
+    padding-left: 40px;
+    box-sizing: border-box;
+}
+#sub > section > article > nav {
+    width: 100%;
+    height: 72px;
+    border-bottom: 1px solid #c2c2c2;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    position: relative;
+}
+#sub > section > article > nav > img {
+	position: absolute;
+	left: 0px;
+	bottom: 4px;
+}
+
+/*팜스토리 소개*/
+#sub > .cate1 > aside > ul > li:nth-child(1) > a {background: url('../img/sub_cate1_lnb1.png');}
+#sub > .cate1 > aside > ul > li:nth-child(1) > a:hover {background: url('../img/sub_cate1_lnb1_ov.png');}
+#sub > .cate1 > aside > ul > li:nth-child(1).on > a {background: url('../img/sub_cate1_lnb1_ov.png');}
+#sub > .cate1 > aside > ul > li:nth-child(2) > a {background: url('../img/sub_cate1_lnb2.png');}
+#sub > .cate1 > aside > ul > li:nth-child(2) > a:hover {background: url('../img/sub_cate1_lnb2_ov.png');}
+#sub > .cate1 > aside > ul > li:nth-child(2).on > a {background: url('../img/sub_cate1_lnb2_ov.png');}
+/*장보기*/
+#sub > .cate2 > aside > ul > li:nth-child(1) > a {background: url('../img/sub_cate2_lnb1.png');}
+#sub > .cate2 > aside > ul > li:nth-child(1) > a:hover {background: url('../img/sub_cate2_lnb1_ov.png');}
+#sub > .cate2 > aside > ul > li:nth-child(1).on > a {background: url('../img/sub_cate2_lnb1_ov.png');}
+/*농작물 이야기*/
+#sub > .cate3 > aside > ul > li:nth-child(1) > a {background: url('../img/sub_cate3_lnb1.png');}
+#sub > .cate3 > aside > ul > li:nth-child(1) > a:hover {background: url('../img/sub_cate3_lnb1_ov.png');}
+#sub > .cate3 > aside > ul > li:nth-child(1).on > a {background: url('../img/sub_cate3_lnb1_ov.png');}
+#sub > .cate3 > aside > ul > li:nth-child(2) > a {background: url('../img/sub_cate3_lnb2.png');}
+#sub > .cate3 > aside > ul > li:nth-child(2) > a:hover {background: url('../img/sub_cate3_lnb2_ov.png');}
+#sub > .cate3 > aside > ul > li:nth-child(2).on > a {background: url('../img/sub_cate3_lnb2_ov.png');}
+#sub > .cate3 > aside > ul > li:nth-child(3) > a {background: url('../img/sub_cate3_lnb3.png');}
+#sub > .cate3 > aside > ul > li:nth-child(3) > a:hover {background: url('../img/sub_cate3_lnb3_ov.png');}
+#sub > .cate3 > aside > ul > li:nth-child(3).on > a {background: url('../img/sub_cate3_lnb3_ov.png');}
+/*이벤트*/
+#sub > .cate4 > aside > ul > li:nth-child(1) > a {background: url('../img/sub_cate4_lnb1.png');}
+#sub > .cate4 > aside > ul > li:nth-child(1) > a:hover {background: url('../img/sub_cate4_lnb1_ov.png');}
+#sub > .cate4 > aside > ul > li:nth-child(1).on > a {background: url('../img/sub_cate4_lnb1_ov.png');}
+/*커뮤니티*/
+#sub > .cate5 > aside > ul > li:nth-child(1) > a {background: url('../img/sub_cate5_lnb1.png');}
+#sub > .cate5 > aside > ul > li:nth-child(1) > a:hover {background: url('../img/sub_cate5_lnb1_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(1).on > a {background: url('../img/sub_cate5_lnb1_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(2) > a {background: url('../img/sub_cate5_lnb2.png');}
+#sub > .cate5 > aside > ul > li:nth-child(2) > a:hover {background: url('../img/sub_cate5_lnb2_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(2).on > a {background: url('../img/sub_cate5_lnb2_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(3) > a {background: url('../img/sub_cate5_lnb3.png');}
+#sub > .cate5 > aside > ul > li:nth-child(3) > a:hover {background: url('../img/sub_cate5_lnb3_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(3).on > a {background: url('../img/sub_cate5_lnb3_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(4) > a {background: url('../img/sub_cate5_lnb4.png');}
+#sub > .cate5 > aside > ul > li:nth-child(4) > a:hover {background: url('../img/sub_cate5_lnb4_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(4).on > a {background: url('../img/sub_cate5_lnb4_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(5) > a {background: url('../img/sub_cate5_lnb5.png');}
+#sub > .cate5 > aside > ul > li:nth-child(5) > a:hover {background: url('../img/sub_cate5_lnb5_ov.png');}
+#sub > .cate5 > aside > ul > li:nth-child(5).on > a {background: url('../img/sub_cate5_lnb5_ov.png');}

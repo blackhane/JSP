@@ -1,0 +1,19 @@
+package servlet;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/Book_Ch13/AnnoMapping.do")
+public class AnnoMapping extends HttpServlet {
+	
+		@Override
+		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			req.setAttribute("message", "@WebServlet으로 매핑");
+			req.getRequestDispatcher("/AnnoMapping.jsp").forward(req, resp);
+		}
+}
