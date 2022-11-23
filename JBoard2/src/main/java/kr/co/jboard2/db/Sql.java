@@ -32,22 +32,34 @@ public class Sql {
 	public static final String SELECT_FIND_USER = "SELECT `name`,`uid`,`email`,`rdate` FROM `board_users` WHERE `name`=? AND `email`=?";
 	
 	//비밀번호찾기
-	public static final String SELECT_FIND_PASSWORD = "SELECT COUNT(*) FROM `board_users` WHERE `uid`=? AND `email`=?";
+	public static final String SELECT_FIND_PASSWORD = "SELECT COUNT(`uid`) FROM `board_users` WHERE `uid`=? AND `email`=?";
 	
 	//비밀번호변경
-	public static final String UPDATE_PASSWORD = "";
+	public static final String UPDATE_USER_PASSWORD = "update `board_users` set `pass`=SHA2(?,256) where `uid`=?";
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	//글쓰기
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "
-																			+ "`cate`=?,"
 																			+ "`title`=?,"
 																			+ "`content`=?,"
 																			+ "`file`=?,"
 																			+ "`uid`=?,"
 																			+ "`regip`=?,"
 																			+ "`rdate`=NOW()";
+	
+	//리스트
+	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 ORDER BY `no` DESC";
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public static final String INSERT_FILE = "INSERT INTO `board_file` SET "
 																			+ "`parent`=?,"
@@ -61,7 +73,6 @@ public class Sql {
 	//전체 게시물 갯수
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0 and `cate`=?";
 	
-	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 and `cate`=? ORDER BY `no` DESC LIMIT ?, 10;";
 	
 	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` "
 																			+ "FROM `board_article` AS a "

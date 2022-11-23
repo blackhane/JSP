@@ -20,6 +20,7 @@ public class UserDAO extends DBHelper {
 	//로거 생성
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	//회원가입
 	public void insertUser(UserVO vo) {
 		try {
 			logger.info("insertUser");
@@ -42,6 +43,7 @@ public class UserDAO extends DBHelper {
 		}
 	}	
 	
+	//약관
 	public TermsVO selectTerms() {
 		TermsVO vo = null;
 		try {
@@ -82,6 +84,7 @@ public class UserDAO extends DBHelper {
 		logger.debug("result : " + result);
 		return result;
 	}
+	
 	//별명 중복여부 체크
 	public int selectCountNick(String nick) {
 		int result = 0;
@@ -102,6 +105,7 @@ public class UserDAO extends DBHelper {
 		return result;
 	}
 	
+	//로그인
 	public UserVO selectUser(String uid, String pass) {
 		UserVO vo = null;
 		try {
@@ -130,16 +134,17 @@ public class UserDAO extends DBHelper {
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
-		logger.debug("vo : " + vo.toString());
+		logger.debug("vo : " + vo);
 		return vo;
 	}
 	
-	public UserVO findUser(String name, String email) {
+	//아이디찾기
+	public UserVO findUserId(String name, String email) {
 		UserVO vo = null;
 		try {
 			logger.info("findUser start");
 			conn = getConnection();
-			psmt = conn.prepareStatement(Sql.FIND_USER);
+			psmt = conn.prepareStatement(Sql.SELECT_FIND_USER);
 			psmt.setString(1, name);
 			psmt.setString(2, email);
 			rs = psmt.executeQuery();
@@ -154,8 +159,47 @@ public class UserDAO extends DBHelper {
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
-		logger.debug("vo : " + vo.toString());
+		logger.debug("vo : " + vo);
 		return vo;
+	}
+	
+	//비밀번호찾기
+	public int findUserPass(String uid, String email) {
+		int result = 0;
+		try {
+			logger.info("findUser start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_FIND_PASSWORD);
+			psmt.setString(1, uid);
+			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result : " + result);
+		return result;
+	}
+
+	//비밀번호변경
+	public int updateUserPass(String pass, String uid) {
+		int result = 0;
+		try {
+			logger.info("updateUserPass start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_USER_PASSWORD);
+			psmt.setString(1, pass);
+			psmt.setString(2, uid);
+			result = psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result : " + result);
+		return result;
 	}
 
 	public void selectUsers() {}

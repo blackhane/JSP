@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.jboard2.dao.ArticleDAO;
+import kr.co.jboard2.vo.ArticleVO;
+import kr.co.jboard2.vo.UserVO;
+
 @WebServlet("/write.do")
 public class WriteController extends HttpServlet {
 
@@ -24,5 +28,18 @@ public class WriteController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String title = req.getParameter("title");		
+		String content = req.getParameter("content");		
+		String uid = req.getParameter("uid");		
+		String regip = req.getRemoteAddr();
+		
+		ArticleVO vo = new ArticleVO();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setFile(0);
+		vo.setUid(uid);
+		vo.setRegip(regip);
+		
+		ArticleDAO.getInstance().insertArticle(vo);
 	}
 }

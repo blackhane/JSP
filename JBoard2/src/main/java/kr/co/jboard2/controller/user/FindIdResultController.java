@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.jboard2.dao.UserDAO;
 import kr.co.jboard2.vo.UserVO;
@@ -22,17 +23,10 @@ public class FindIdResultController extends HttpServlet {
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/findIdResult.jsp");
+		dispatcher.forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String name = req.getParameter("name");
-		String email = req.getParameter("email");
-	
-		UserVO vo = UserDAO.getInstance().findUser(name, email);
-		req.setAttribute("vo", vo);
-		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/findIdResult.jsp");
-		dispatcher.forward(req, resp);
 	}
 }

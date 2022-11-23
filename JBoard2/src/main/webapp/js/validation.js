@@ -1,7 +1,8 @@
 /**
  * 
  */
- 	//정규표현식
+$(function(){
+	//정규표현식
 	let regUid = /^[a-z]+[a-z0-9]{4,19}$/g;
 	let regMail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	let regHp = /^\d{3}-\d{3,4}-\d{4}$/;
@@ -16,7 +17,6 @@
 	let isNickOk 	= false;
 	let isEmailOk	= false;
 	let isEmailAuthOk = false;
-	let isEmailAuthCodeOk = false;
 	let isHpOk		= false;
 	
 	//아이디 중복체크
@@ -109,22 +109,22 @@
 		}
 		
 		setTimeout(function(){
-		$.ajax({
-			url:'/JBoard2/user/checkNick.do',
-			method:'get',
-			data:{"nick":nick},
-			dataType:'json',
-			success:function(data){
-				console.log(data.result);
-				if(data.result > 0){
-					isNickOk = false;
-					$('.nickResult').css('color','red').text('이미 사용중인 별명 입니다.');
-				}else{
-					isNickOk = true;
-					$('.nickResult').css('color','green').text('사용 가능한 별명 입니다.');
+			$.ajax({
+				url:'/JBoard2/user/checkNick.do',
+				method:'get',
+				data:{"nick":nick},
+				dataType:'json',
+				success:function(data){
+					console.log(data.result);
+					if(data.result > 0){
+						isNickOk = false;
+						$('.nickResult').css('color','red').text('이미 사용중인 별명 입니다.');
+					}else{
+						isNickOk = true;
+						$('.nickResult').css('color','green').text('사용 가능한 별명 입니다.');
+					}
 				}
-			}
-		});
+			});
 		},1000);
 	});
 	
@@ -132,7 +132,6 @@
 	$('input[name=email]').keydown(function(){
 		isEmailOk = false;
 		isEmailAuthOk = false;
-		isEmailAuthCodeOk = false;
 	});
 	$('input[name=email]').focusout(function(){
 		let email = $(this).val();
@@ -145,9 +144,9 @@
 			$('.emailResult').text('');
 		}
 	});
-	
+
 	let receivedCode = 0;
-	
+
 	//이메일 인증
 	$('#btnEmail').click(function(){
 		//이메일 인증코드 발송
@@ -189,7 +188,7 @@
 				}
 			});
 		}, 1000);
-		
+			
 		//이메일 인증코드 확인
 		$("#btnEmailConfirm").click(function(){
 			let code = $('input[name=auth]').val();
@@ -198,12 +197,10 @@
 				alert('이메일 확인 후 인증코드를 입력하세요.');
 			}
 			if(code == receivedCode){
-				isEmailAuthCodeOk = true;
 				alert('이메일이 인증 되었습니다.');
 				$('.emailResult').css('color','green').text('이메일이 인증 되었습니다.');
 				$('.auth').hide();
 			}else{
-				isEmailAuthCodeOk = false;
 				alert('인증코드가 틀립니다.')
 			}
 		});
@@ -248,7 +245,7 @@
 			$('input[name=email]').focus();
 			return false;
 		}	
-		if(!isEmailAuthCodeOk){
+		if(!isEmailAuthOk){
 			alert('이메일 인증을 확인하십시요.');
 			$('input[name=email]').focus();
 			return false;
@@ -261,29 +258,31 @@
 		
 		return true;
 	});
+});
 
-	//주소
-	function postcode() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+//주소
+function postcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('zip').value = data.zonecode;
+            document.getElementById("addr1").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("addr2").focus();
+        }
+    }).open();
+}
 	
-	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            var addr = ''; // 주소 변수
-	
-	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-	                addr = data.roadAddress;
-	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-	                addr = data.jibunAddress;
-	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.getElementById('zip').value = data.zonecode;
-	            document.getElementById("addr1").value = addr;
-	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("addr2").focus();
-	        }
-	    }).open();
-	}

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
+<script src="/JBoard2/js/emailAuth.js"></script>
 <main id="user">
     <section class="find findPw">
         <form action="/JBoard2/user/findPw.do">
@@ -33,7 +34,7 @@
 
         <div>
             <a href="/JBoard2/user/login.do" class="btn btnCancel">취소</a>
-            <a href="/JBoard2/user/findPwChange.do" class="btn btnNext">다음</a>
+            <a href="/JBoard2/user/findPwChange.do" class="btn btnNextPw">다음</a>
         </div>
     </section>
 </main>
