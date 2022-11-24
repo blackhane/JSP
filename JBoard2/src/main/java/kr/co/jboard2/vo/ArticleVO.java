@@ -16,6 +16,36 @@ public class ArticleVO {
 	
 	private String nick;
 	
+	private int fno;
+	
+	private String fname;
+	private String oriName;
+	private int download;
+	
+	public int getFno() {
+		return fno;
+	}
+	public void setFno(int fno) {
+		this.fno = fno;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fno) {
+		this.fname = fno;
+	}
+	public String getOriName() {
+		return oriName;
+	}
+	public void setOriName(String oriName) {
+		this.oriName = oriName;
+	}
+	public int getDownload() {
+		return download;
+	}
+	public void setDownload(int download) {
+		this.download = download;
+	}
 	public String getNick() {
 		return nick;
 	}

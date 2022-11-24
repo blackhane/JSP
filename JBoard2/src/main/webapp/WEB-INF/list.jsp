@@ -27,7 +27,7 @@
             		<c:forEach var="article" items="${articles }">
 			            <tr>
 			                <td>${article.no }</td>
-			                <td><a href="./view.do">${article.title } [${article.comment }]</a></td>
+			                <td><a href="/JBoard2/view.do?no=${article.no }">${article.title } [${article.comment }]</a></td>
 			                <td>${article.nick }</td>
 			                <td>${article.rdate }</td>
 			                <td>${article.hit }</td>

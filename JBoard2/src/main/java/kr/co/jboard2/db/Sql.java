@@ -22,6 +22,9 @@ public class Sql {
 	//로그인 아이디, 비밀번호 체크
 	public static final String SELECT_USER = "SELECT * FROM `board_users`  WHERE  `uid`=? AND `pass`=SHA2(?,256)";
 	
+	//자동로그인
+	public static final String SELECT_USER_BY_SESSID = "SELECT * FROM `board_users` WHERE `sessId`=? AND `sessLimitDate` > NOW()";
+	
 	//아이디 중복체크
 	public static final String SELECT_COUNT_UID = "SELECT COUNT(`uid`) FROM `board_users` WHERE `uid`=?";
 	
@@ -37,6 +40,12 @@ public class Sql {
 	//비밀번호변경
 	public static final String UPDATE_USER_PASSWORD = "update `board_users` set `pass`=SHA2(?,256) where `uid`=?";
 	
+	//쿠키저장
+	public static final String UPDATE_USER_FOR_SESSION = "UPDATE `board_users` SET `sessId`=?, `sessLimitDate`=DATE_ADD(NOW(), INTERVAL 3 DAY) WHERE `uid`=?";
+
+	//쿠키삭제
+	public static final String UPDATE_USER_FOR_SESSION_OUT = "UPDATE `board_users` SET `sessId`=NULL, `sessLimitDate`=NULL WHERE `uid`=?";
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,37 +57,50 @@ public class Sql {
 																			+ "`uid`=?,"
 																			+ "`regip`=?,"
 																			+ "`rdate`=NOW()";
+	//제일 늦게 작성된 글 번호
+	public static final String SELECT_MAX_NO = "SELECT MAX(`no`) FROM `board_article`";
 	
-	//리스트
-	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 ORDER BY `no` DESC";
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//파일쓰기
 	public static final String INSERT_FILE = "INSERT INTO `board_file` SET "
 																			+ "`parent`=?,"
 																			+ "`newName`=?,"
 																			+ "`oriName`=?,"
 																			+ "`rdate`=NOW()";
 	
+	//리스트
+	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 ORDER BY `no` DESC";
+	
+	//글보기
+	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` FROM `board_article` AS a "
+																			+ "LEFT JOIN `board_file` AS b "
+																			+ "ON a.`no`=b.`parent` WHERE `no`=?";
+	
+	//조회수
+	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit`=`hit`+1 WHERE `no`=?";
+		
+	//글수정
+	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
+		
+	//글삭제
+	public static final String DELETE_ARTICLE = "DELETE FROM `board_article` WHERE `no`=? OR `parent`=?";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static final String INSERT_COMMENT = "";
 	
-	public static final String SELECT_MAX_NO = "SELECT MAX(`no`) FROM `board_article`";
+	
 	//전체 게시물 갯수
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0 and `cate`=?";
 	
 	
-	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` "
-																			+ "FROM `board_article` AS a "
-																			+ "LEFT JOIN `board_file` AS b "
-																			+ "ON a.`no` = b.`parent`"
-																			+ "WHERE `no`= ?";
+	
 	
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
 																			+ "JOIN `board_users` AS b USING (`uid`) "
@@ -93,8 +115,7 @@ public class Sql {
 	public static final String SELECT_FILE = "SELECT * FROM `board_file` WHERE `fno`=?";
 
 	public static final String SELECT_FILE_WITH_PARENT  = "SELECT * FROM `board_file` WHERE `parent`=?";
-	//조회수
-	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit`=`hit`+1 WHERE `no`=?";
+	
 	//다운로드횟수
 	public static final String UPDATE_FILE_HIT = "update `board_file` set `download`=`download`+1 where `fno`=?";
 	
@@ -106,12 +127,11 @@ public class Sql {
 
 	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?, `rdate`=NOW() WHERE `no`=?";
 
-	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
+	
 	
 	public static final String DELETE_COMMENT = "DELETE FROM `board_article` WHERE `no`=?";
 
-	public static final String DELETE_ARTICLE = "DELETE FROM `board_article` WHERE `no`=? OR `parent`=?";
-	
+
 	public static final String DELETE_FILE = "DELETE FROM `board_file` WHERE `parent`=?";
 	
 }
