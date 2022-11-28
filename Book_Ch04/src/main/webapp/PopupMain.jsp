@@ -1,6 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String popupMode = "on";
+
+	Cookie[] cookies = request.getCookies();
+	if(cookies != null){
+		for(Cookie c : cookies){
+			String cookieName = c.getName();
+			String cookieValue = c.getValue();
+			
+			if(cookieName.equals("PopupClose")){
+				popupMode = cookieValue;
+			}
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -32,8 +44,23 @@
 			$(function(){
 				
 				$('#closeBtn').click(function(){
-						$('#popup').hide();
+					$('#popup').hide();
+					
+					let chkVal = $('input:checkbox[id=inactiveToday]:checked').val();
+					
+					$.ajax({
+						url : './PopupCookie.jsp',
+						type : 'get',
+						data : {'inactiveToday' : chkVal},
+						dataType : 'text',
+						success:function(data){
+							if(data != ''){
+								location.reload();
+							}
+						}
+					});
 				});
+				
 			});
 		</script>
 	</head>

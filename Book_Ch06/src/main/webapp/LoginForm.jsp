@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>Session</title>
 	</head>
 	<body>
 		<jsp:include page="./Link.jsp"/>
@@ -13,29 +13,17 @@
 		</span>
 		
 		<%
-			//로그인상태확인
+			//로그인 상태 확인
 			if(session.getAttribute("UserId") == null){
-				//로그아웃 상태
 		%>
-		<script>
-			function validateForm(form){
-				if(!form.user_id.value){
-					alert("아이디를 입력하세요.");
-					return false;
-				}
-				if(!form.user_pw.value == ""){
-					alert=("패스워드를 입력하세요.");
-					return false;
-				}
-			}
-		</script>
-		
-		<form action="./LoginProcess.jsp" method="post" name="loginFrm" onsubmit="return validateForm(form);">
-			아이디 : <input type="text" name="user_id"/><br/>
-			패스워드 : <input type="password" name="user_pw"/><br/>
+		<!-- 로그인 X -->
+		<form action="./LoginProcess.jsp" method="post" name="loginFrm">
+			아이디 : <input type="text" name="user_id"  required/><br/>
+			패스워드 : <input type="password" name="user_pw"  required/><br/>
 			<input type="submit" value="로그인">
 		</form>
 		<% } else { %>
+		<!-- 로그인 O -->
 			<%= session.getAttribute("UserName") %> 회원님, 로그인하셨습니다.<br/>
 			<a href="./Logout.jsp">[로그아웃]</a>
 		<% } %>
