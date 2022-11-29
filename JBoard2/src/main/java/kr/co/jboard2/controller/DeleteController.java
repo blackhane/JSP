@@ -1,5 +1,6 @@
 package kr.co.jboard2.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,18 @@ public class DeleteController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String no = req.getParameter("no");
 		
-		ArticleDAO.getInstance().deleteArticle(no);
+		ArticleDAO dao = ArticleDAO.getInstance();
+		dao.deleteArticle(no);
+		String fileName = dao.deleteFile(no);
+		
+		//파일 디렉토리에서 삭제
+		if(fileName != null){
+			String path = req.getRealPath("/file");
+			File file = new File(path,fileName);
+			if(file.exists()){
+				file.delete();	
+			}
+		}
 		
 		resp.sendRedirect("/JBoard2/list.do");
 	}
