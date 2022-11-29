@@ -67,13 +67,24 @@ public class Sql {
 																			+ "`oriName`=?,"
 																			+ "`rdate`=NOW()";
 	
+	//댓글쓰기
+	public static final String INSERT_COMMENT = "INSERT INTO `board_article`(`parent`, `content`, `uid`, `regip`, `rdate`) VALUES (?,?,?,?,NOW())";
+	
 	//리스트
 	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 ORDER BY `no` DESC";
+
+	//리스트 (검색기능)
+	public static final String  SELECT_ARTICLE_BY_KEYWORD = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?) ORDER BY `no` DESC";
 	
 	//글보기
 	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` FROM `board_article` AS a "
 																			+ "LEFT JOIN `board_file` AS b "
 																			+ "ON a.`no`=b.`parent` WHERE `no`=?";
+	
+	//댓글
+	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
+																			+ "JOIN `board_users` AS b USING (`uid`) "
+																			+ "WHERE `parent`=? ORDER BY `no` asc";
 	
 	//조회수
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit`=`hit`+1 WHERE `no`=?";
@@ -84,6 +95,11 @@ public class Sql {
 	//글삭제
 	public static final String DELETE_ARTICLE = "DELETE FROM `board_article` WHERE `no`=? OR `parent`=?";
 	
+	//파일삭제
+	public static final String DELETE_FILE = "DELETE FROM `board_file` WHERE `parent`=?";
+	
+	//실제 저장된 파일 삭제를 위한 저장된 파일명 가져오기
+	public static final String SELECT_FILE_WITH_PARENT  = "SELECT * FROM `board_file` WHERE `parent`=?";
 	
 	
 	
@@ -93,7 +109,7 @@ public class Sql {
 	
 	
 	
-	public static final String INSERT_COMMENT = "";
+	
 	
 	
 	//전체 게시물 갯수
@@ -102,9 +118,7 @@ public class Sql {
 	
 	
 	
-	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
-																			+ "JOIN `board_users` AS b USING (`uid`) "
-																			+ "WHERE `parent`=? ORDER BY `no` asc";
+	
 	
 	public static final String SELECT_LATESTS  = "(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='grow' ORDER BY `no` DESC LIMIT 5) "
 														+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='school' ORDER BY `no` DESC LIMIT 5) "
@@ -114,7 +128,6 @@ public class Sql {
 	
 	public static final String SELECT_FILE = "SELECT * FROM `board_file` WHERE `fno`=?";
 
-	public static final String SELECT_FILE_WITH_PARENT  = "SELECT * FROM `board_file` WHERE `parent`=?";
 	
 	//다운로드횟수
 	public static final String UPDATE_FILE_HIT = "update `board_file` set `download`=`download`+1 where `fno`=?";
@@ -132,6 +145,5 @@ public class Sql {
 	public static final String DELETE_COMMENT = "DELETE FROM `board_article` WHERE `no`=?";
 
 
-	public static final String DELETE_FILE = "DELETE FROM `board_file` WHERE `parent`=?";
 	
 }

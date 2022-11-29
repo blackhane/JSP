@@ -26,10 +26,12 @@ public class ViewController extends HttpServlet {
 		String no = req.getParameter("no");
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
-		ArticleVO vo = dao.selectArticle(no);
+		ArticleVO articles = dao.selectArticle(no);
 		dao.updateArticleHit(no);
+		ArticleVO comments = dao.selectComment(no);
 		
-		req.setAttribute("article", vo);
+		req.setAttribute("article", articles);
+		req.setAttribute("comment", comments);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/view.jsp");
 		dispatcher.forward(req, resp);
