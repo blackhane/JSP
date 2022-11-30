@@ -4,6 +4,39 @@
 <script>
 
 	$(function(){
+		//시작과 동시에 리스트 출력
+		showComment();
+		
+		//댓글 리스트 출력 함수
+		function showComment(){
+			let no = $('input[name=parent]').val();
+			console.log(no);
+			
+			$.ajax({
+				url : '/JBoard2/comment.do',
+				method : 'get',
+				data : {'no' : no},
+				dataType : 'json',
+				success : function(data){
+					console.log(data.result)
+					if(data.result < 1){
+						let comment = "<p>등록된 댓글이 없습니다.</p>";
+					}else{
+						let comment = "<article>";
+							comment += "<span class='nick'>${comment.nick}</span>";
+							comment += "<span class='date'>${comment.rdate}</span>";
+							comment += "<p class='content'>${comment.content}</p>";
+							comment += "<c:if test='${sessUser.uid eq comment.uid}'>";
+							comment += "<div><a href='#' class='remove'>삭제</a>";
+							comment += "<a href='#' class='modify'>수정</a></div>";
+							comment += "</c:if>";
+							comment += "</article>";
+					}
+					$('.commentList').appent(comment);
+				}
+			});
+		}
+		
 		//댓글 쓰기
 		$('.commentForm > form').submit(function(){
 			
@@ -11,6 +44,10 @@
 			let textarea = $(this).children('textarea[name=content]');
 			let uid = $(this).children('input[name=uid]').val();
 			let content = textarea.val();
+			
+			if(content == ''){
+				return;
+			}
 			
 			let jsonData = {
 					'uid' : uid,
@@ -26,8 +63,14 @@
 				dataType : 'json',
 				success : function(data){
 					console.log(data.result);
+					$('textarea[name=content]').val('');
 				}
 			});
+			return false;
+		});
+		
+		$('.btnCancel').click(function(){
+			$('textarea[name=content]').val('');
 		});
 	});
 </script>
@@ -63,22 +106,22 @@
         <!-- 댓글목록 -->
         <section class="commentList">
             <h3>댓글목록</h3>                   
-		<c:choose>
-			<c:when test="${empty comment}">
-	            <p class="empty">등록된 댓글이 없습니다.</p>
-            </c:when>
-			<c:otherwise>
-            	<article>
-	                <span class="nick">${comment.nick}</span>
-	                <span class="date">${comment.rdate}</span>
-	                <p class="content">${comment.content}</p>                        
-	                <div>
-	                    <a href="#" class="remove">삭제</a>
-	                    <a href="#" class="modify">수정</a>
-	                </div>
-	            </article>
-            </c:otherwise>
-		</c:choose>
+		
+			<c:if test="${comments ne null}">
+				<c:forEach items="${comments}" var="comment">
+					<article>
+		                <span class="nick">${comment.nick}</span>
+		                <span class="date">${comment.rdate}</span>
+		                <p class="content">${comment.content}</p>   
+		                <c:if test="${sessUser.uid eq comment.uid}">                     
+		                <div>
+		                    <a href="#" class="remove">삭제</a>
+		                    <a href="#" class="modify">수정</a>
+		                </div>
+		                </c:if>
+		            </article>
+	            </c:forEach>
+            </c:if>
         </section>
 
         <!-- 댓글쓰기 -->

@@ -46,6 +46,12 @@ public class Sql {
 	//쿠키삭제
 	public static final String UPDATE_USER_FOR_SESSION_OUT = "UPDATE `board_users` SET `sessId`=NULL, `sessLimitDate`=NULL WHERE `uid`=?";
 	
+	//회원정보 수정
+	public static final String UPDATE_USER = "UPDATE `board_users` SET `name`=?, `nick`=?, `email`=?, `hp`=?, `zip`=?, `addr1`=?, `addr2`=? WHERE `uid`=?";
+	
+	//회원탈퇴
+	public static final String DELETE_USER = "UPDATE `board_users` SET `grade`= 0, `wdate`=NOW() WHERE `uid`=?";
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,14 +87,17 @@ public class Sql {
 																			+ "LEFT JOIN `board_file` AS b "
 																			+ "ON a.`no`=b.`parent` WHERE `no`=?";
 	
-	//댓글
+	//댓글 리스트
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
 																			+ "JOIN `board_users` AS b USING (`uid`) "
 																			+ "WHERE `parent`=? ORDER BY `no` asc";
 	
 	//조회수
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit`=`hit`+1 WHERE `no`=?";
-		
+	
+	//댓글+1
+	public static final String UPDATE_COMMENT_HIT_UP = "UPDATE `board_article` SET  `comment` = `comment`+1 WHERE `no`= ?";
+	
 	//글수정
 	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
 		
@@ -132,7 +141,7 @@ public class Sql {
 	//다운로드횟수
 	public static final String UPDATE_FILE_HIT = "update `board_file` set `download`=`download`+1 where `fno`=?";
 	
-	public static final String UPDATE_COMMENT_HIT_UP = "UPDATE `board_article` SET  `comment` = `comment`+1 WHERE `no`= ?";
+	
 	
 	public static final String UPDATE_COMMENT_HIT_DOWN = "UPDATE `board_article` SET `comment` = `comment`-1 WHERE `no`=?";
 	

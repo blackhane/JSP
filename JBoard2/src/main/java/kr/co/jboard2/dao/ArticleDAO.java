@@ -84,6 +84,7 @@ public class ArticleDAO extends DBHelper {
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+		logger.debug("result : " + result);
 		return result;
 	}
 	
@@ -120,17 +121,17 @@ public class ArticleDAO extends DBHelper {
 		return vo;
 	}
 	
-	//댓글
-	public ArticleVO selectComment(String no) {
-		ArticleVO vo = null;
+	//댓글목록
+	public List<ArticleVO> selectComment(String no) {
+		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectComment start");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_COMMENTS);
 			psmt.setString(1, no);
 			rs = psmt.executeQuery();
-			if(rs.next()) {
-				vo = new ArticleVO();
+			while(rs.next()) {
+				ArticleVO vo = new ArticleVO();
 				vo.setNo(rs.getInt(1));
 				vo.setParent(rs.getInt(2));
 				vo.setComment(rs.getInt(3));
@@ -141,14 +142,15 @@ public class ArticleDAO extends DBHelper {
 				vo.setHit(rs.getInt(8));
 				vo.setUid(rs.getString(9));
 				vo.setRegip(rs.getString(10));
-				vo.setRdate(rs.getString(11));
+				vo.setRdate(rs.getString(11).substring(2,10));
 				vo.setNick(rs.getString(12));
+				articles.add(vo);
 			}
 			close();
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
-		return vo;
+		return articles;
 	}
 	
 	//게시물리스트
@@ -220,6 +222,20 @@ public class ArticleDAO extends DBHelper {
 			logger.info("updateArticleHit start");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE_HIT);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	//댓글수
+	public void updateCommentHit(String no) {
+		try {
+			logger.info("updateCommentHit start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_COMMENT_HIT_UP);
 			psmt.setString(1, no);
 			psmt.executeUpdate();
 			close();
