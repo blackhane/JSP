@@ -52,6 +52,6 @@ public class RegisterController extends HttpServlet {
 		
 		UserDAO.getInstance().insertUser(vo);
 		
-		resp.sendRedirect("/JBoard2/user/login.do?code=101");
+		resp.sendRedirect("/JBoard2/user/login.do?code=100");
 	}
 }

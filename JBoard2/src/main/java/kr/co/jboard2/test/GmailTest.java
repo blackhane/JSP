@@ -18,9 +18,9 @@ public class GmailTest {
 		String sender = "whynotcry94@gmail.com";//발신자
 		String password = "ohszubjrgzvkwmhd"; //앱비밀번호
 		
-		String receiver = "black_hana@naver.com";//수신자
-		String title = "테스트 메일 발송2";//메일 이름
-		String content = "테스트 완료2";//메일 내용
+		String receiver = "jang-mi10@daum.net";//수신자
+		String title = "테스트 메일 발송";//메일 이름
+		String content = "테스트 완료";//메일 내용
 		
 		//Gmail SMTP 정보설정
 		Properties props = new Properties();
