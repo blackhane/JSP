@@ -25,6 +25,11 @@ public class ViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
+		String pg = req.getParameter("pg");
+		req.setAttribute("group", group);
+		req.setAttribute("cate", cate);
+		req.setAttribute("pg", pg);
+		
 		String no = req.getParameter("no");
 		
 		ArticleDAO dao = ArticleDAO.getInstance();

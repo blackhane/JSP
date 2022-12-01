@@ -1,6 +1,7 @@
 package kr.co.farmstory2.controller.user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.JsonObject;
+
+import kr.co.farmstory2.dao.UserDAO;
+
 
 @WebServlet("/board/user/findPw.do")
 public class FindPw extends HttpServlet {
@@ -28,5 +34,15 @@ public class FindPw extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String uid =req.getParameter("uid");
+		String email =req.getParameter("email");
+	
+		int result = UserDAO.getInstance().selectFindPw(uid, email);
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		PrintWriter writer = resp.getWriter();
+		writer.print(json.toString());
 	}
 }

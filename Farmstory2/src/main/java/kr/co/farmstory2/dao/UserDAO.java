@@ -178,6 +178,24 @@ public class UserDAO extends DBHelper {
 		return vo;
 	}
 	
+	//비밀번호변경
+	public int updateUserPass(String pass, String uid) {
+		int result = 0;
+		try {
+			logger.info("updateUserPass start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_USER_PASSWORD);
+			psmt.setString(1, pass);
+			psmt.setString(2, uid);
+			result = psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result : " + result);
+		return result;
+	}
+		
 	public void selectUsers(){}
 	public void updateUser(){}
 	public void deleteUser(){}

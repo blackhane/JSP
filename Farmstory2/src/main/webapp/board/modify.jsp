@@ -7,6 +7,9 @@
 			
 			        <form action="/Farmstory2/board/modify.do" method="post">
 			        <input type="hidden" name="no" value="${vo.no}">
+			        <input type="hidden" name="group" value="${group}">
+			        <input type="hidden" name="cate" value="${cate}">
+			        <input type="hidden" name="pg" value="${pg}">
 			            <table border="0">
 			                <caption>글수정</caption>
 			                <tr>
@@ -22,13 +25,13 @@
 			                <tr>
 			                    <th>파일</th>
 			                    <td>
-			                        <input type="file" name="file" value="${vo.oriName}"/>
+			                        <input type="file" name="file" />
 			                    </td>
 			                </tr>
 			            </table>
 			            
 			            <div>
-			                <a href="./view.do?no=${vo.no}" class="btn btnCancel">취소</a>
+			                <a href="./view.do?group=${group}&cate=${cate}&pg=${pg}&no=${vo.no}" class="btn btnCancel">취소</a>
 			                <input type="submit" value="작성완료" class="btn btnComplete"/>
 			            </div>
 			        </form>

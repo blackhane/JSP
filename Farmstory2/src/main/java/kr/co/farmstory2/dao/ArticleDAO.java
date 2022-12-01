@@ -1,6 +1,8 @@
 package kr.co.farmstory2.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 import kr.co.farmstory2.db.DBHelper;
 import kr.co.farmstory2.db.Sql;
 import kr.co.farmstory2.vo.ArticleVO;
+import kr.co.farmstory2.vo.FileVO;
 
 
 
@@ -148,13 +151,12 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	//메인화면 최신글 보기 (커뮤니티)
-	public List<ArticleVO> selectLatest(String cate){
+	public List<ArticleVO> selectLatest2(){
 		List<ArticleVO> latest = new ArrayList<>();
 		try {
 			logger.debug("selectLatest2 Start");
 			conn = getConnection();
-			psmt = conn.prepareStatement(Sql.SELECT_LATEST);
-			psmt.setString(1, cate);
+			psmt = conn.prepareStatement(Sql.SELECT_LATEST2);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				ArticleVO ab = new ArticleVO();
@@ -169,6 +171,46 @@ public class ArticleDAO extends DBHelper {
 		}
 		logger.debug("selectLatest2 End : " + latest.size());
 		return latest;
+	}
+	
+	//파일다운로드
+	public FileVO selectFile(String fno) {
+
+		FileVO fb = null;
+		try{
+			logger.info("selectFile start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.SELECT_FILE);
+			psmt.setString(1, fno);
+			rs =  psmt.executeQuery();
+			if(rs.next()){
+				fb = new FileVO();
+				fb.setFno(rs.getInt(1));
+				fb.setParent(rs.getInt(2));
+				fb.setNewName(rs.getString(3));
+				fb.setOriName(rs.getString(4));
+				fb.setDownload(rs.getInt(5));
+				fb.setrDate(rs.getString(6));
+			}
+			close();
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}
+		return fb;
+	}
+	
+	//다운로드 카운트+1
+	public void updateFileDownload(String fno) {
+		try{
+			logger.info("updateFileDownload start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_FILE_HIT);
+			psmt.setString(1, fno);
+			psmt.executeUpdate();
+			close();
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}
 	}
 	
 	//댓글목록
@@ -229,6 +271,7 @@ public class ArticleDAO extends DBHelper {
 				vo.setNick(rs.getString(12));
 				articles.add(vo);
 			}
+			close();
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -316,7 +359,8 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	//글수정
-	public void updateArticle(String no, String title, String content) {
+	public int updateArticle(String no, String title, String content, String fname) {
+		int parent = 0;
 		try {
 			logger.info("updateArticle start");
 			conn = getConnection();
@@ -324,11 +368,13 @@ public class ArticleDAO extends DBHelper {
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setString(3, no);
-			psmt.executeUpdate();
+			psmt.setInt(4, (fname==null) ? 0 : 1);
+			parent = psmt.executeUpdate();
 			close();
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+		return parent;
 	}
 	
 	//글삭제

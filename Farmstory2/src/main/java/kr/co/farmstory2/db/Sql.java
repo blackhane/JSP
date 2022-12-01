@@ -97,7 +97,9 @@ public class Sql {
 										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='story' ORDER BY `no` DESC LIMIT 5) ";
 
 	//메인화면 최신글 보기 (커뮤니티)
-	public static final String SELECT_LATEST = "SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`=? ORDER BY `no` DESC LIMIT 3";
+	public static final String SELECT_LATEST2 = "(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='notice' ORDER BY `no` DESC LIMIT 3) "
+										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='qna' ORDER BY `no` DESC LIMIT 3) "
+										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='faq' ORDER BY `no` DESC LIMIT 3) ";
 	
 	//댓글 리스트
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
@@ -117,7 +119,7 @@ public class Sql {
 	public static final String UPDATE_COMMENT_HIT_DOWN = "UPDATE `board_article` SET `comment` = `comment`-1 WHERE `no`=?";
 	
 	//글수정
-	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
+	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `fname`=?, `rdate`=NOW() WHERE `no`=?";
 	
 	//댓글수정
 	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?, `rdate`=NOW() WHERE `no`=?";
@@ -134,7 +136,7 @@ public class Sql {
 	//실제 저장된 파일 삭제를 위한 저장된 파일명 가져오기
 	public static final String SELECT_FILE_WITH_PARENT  = "SELECT * FROM `board_file` WHERE `parent`=?";
 	
-	//???
+	//파일 찾기
 	public static final String SELECT_FILE = "SELECT * FROM `board_file` WHERE `fno`=?";
 
 }

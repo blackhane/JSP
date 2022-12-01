@@ -20,10 +20,8 @@
 			            </tr>
 			            <c:forEach items="${vo}" var="vo">                  
 			            <tr>
-			            <c:forEach ver="i" begin="0" end="10">
-			                <td>${pageStartNum}-${i}</td>
-			            </c:forEach>    
-			                <td><a href="/Farmstory2/board/view.do?group=${group}&cate=${cate}&no=${vo.no}">${vo.title} [${vo.comment}]</a></td>
+			                <td>${vo.no}</td>
+			                <td><a href="/Farmstory2/board/view.do?group=${group}&cate=${cate}&pg=${currentPage}&no=${vo.no}">${vo.title} [${vo.comment}]</a></td>
 			                <td>${vo.nick}</td>
 			                <td>${vo.rdate }</td>
 			                <td>${vo.hit}</td>
@@ -35,14 +33,19 @@
 			            	</tr>
 			            </c:if>
 			        </table>
-			
 			        <div class="page">
-			            <a href="#" class="prev">이전</a>
-			            <a href="#" class="num current">1</a>
-			            <a href="#" class="next">다음</a>
+<%-- 			        	<c:if test=${pageGroupStart gt 1}> --%>
+<%-- 			        		<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupStart-1}" class="prev">이전</a> --%>
+<%-- 			        	</c:if> --%>
+			            <c:forEach var="num" begin="${pageGroupStart}" end="${pageGroupEnd}">
+			            	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${num}" class="num ${currentPage eq num ? 'current' : 'off' }">${num}</a>
+			            </c:forEach>
+<%-- 			            <c:if test=${pageGroupEnd lt lastPageNum}> --%>
+<%-- 			            	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupEnd+1}" class="next">다음</a> --%>
+<%-- 			            </c:if> --%>
 			        </div>
 					<c:if test="${sessUser.uid ne null}">
-			        	<a href="/Farmstory2/board/write.do" class="btn btnWrite">글쓰기</a>
+			        	<a href="/Farmstory2/board/write.do?group=${group}&cate=${cate}" class="btn btnWrite">글쓰기</a>
 			        </c:if>
 			    </section>
 			</main>

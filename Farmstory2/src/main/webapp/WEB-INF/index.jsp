@@ -79,9 +79,9 @@
                 </p>
             </div>
             <div class="btns">
-                <a href="/Farmstory2/board/list.do?group=community&cate=chef"><img src="/Farmstory2/img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
-                <a href="#"><img src="/Farmstory2/img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
-                <a href="#"><img src="/Farmstory2/img/main_sub2_cs_bt3.png" alt="배송조회"></a>
+                <a href="/Farmstory2/board/list.do?group=community&cate=qna"><img src="/Farmstory2/img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
+                <a href="/Farmstory2/board/list.do?group=community&cate=faq"><img src="/Farmstory2/img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
+                <a href="/Farmstory2/?Code=103"><img src="/Farmstory2/img/main_sub2_cs_bt3.png" alt="배송조회"></a>
             </div>
         </div>
         <div>
@@ -103,23 +103,23 @@
                 </ul>
                 <div id="tabs-1">
                     <ul class="txt">
-                        <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
-                        <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
-                        <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
+                    <c:forEach var="article" items="${articles4}">
+		                <li><a href="/Farmstory2/board/view.do?group=community&cate=notice&pg=1&no=${article.no}">· ${article.title}</a></li>
+		            </c:forEach>
                     </ul>
                 </div>
                 <div id="tabs-2">
                     <ul class="txt">
-                        <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
-                        <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
-                        <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
+                    <c:forEach var="article" items="${articles5}">
+	                	<li><a href="/Farmstory2/board/view.do?group=community&cate=qna&pg=1&no=${article.no}">· ${article.title}</a></li>
+	           		</c:forEach>
                     </ul>
                 </div>
                 <div id="tabs-3">
                     <ul class="txt">
-                        <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
-                        <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
-                        <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
+                   	<c:forEach var="article" items="${articles6}">
+                		<li><a href="/Farmstory2/board/view.do?group=community&cate=faq&pg=1&no=${article.no}">· ${article.title}</a></li>
+            		</c:forEach>
                     </ul>
                 </div>
             </div>

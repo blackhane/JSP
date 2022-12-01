@@ -30,56 +30,57 @@ public class ListController extends HttpServlet {
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
 		
-		HttpSession session = req.getSession();
-		session.setAttribute("group", group);
-		session.setAttribute("cate", cate);
+		req.setAttribute("group", group);
+		req.setAttribute("cate", cate);
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
 		
-		//페이징 작업
+		//변수
 		int start = 0;
-		int total = 0; //총 게시물 개수
-		int lastPageNum = 0; //마지막 페이지 번호
-		int currentPage = 1; //현재 페이지
-		int currentPageGroup = 1; //현재 페이지 그룹
-		int pageGroupStart = 0; //그룹 시작번호
-		int pageGroupEnd = 0; //그룹 마지막 번호
-		int pageStartNum = 0; //페이지 시작 번호
-		
-		
-		
-		//현재 페이지 그룹 (ex: 1~10, 11~20, 21~30...)
-		currentPageGroup = (int)Math.ceil(currentPage / 10.0);
-		pageGroupStart = (currentPageGroup-1) * 10 + 1;//시작번호
-		pageGroupEnd = currentPageGroup * 10;//끝번호
-		//전체 게시물 개수
-		total = dao.selectCountTotal(cate);
-		//마지막 페이지 번호
-		if(total % 10 == 0) {
-			lastPageNum = total / 10;
-		}else {
-			lastPageNum = total / 10 + 1;
-		}
-		//페이지 그룹 번호가 마지막 페이지 번호보다 많으면...
-		if(pageGroupEnd > lastPageNum) {
-			pageGroupEnd = lastPageNum;
-		}
-		
-		
-		//게시글 번호
-		pageStartNum = total - start;
-		req.setAttribute("pageStartNum", pageStartNum);
+		int total = 0;
+		int lastPageNum = 0;
+		int currentPage = 1;
+		int currentPageGroup = 1;
+		int pageGroupStart = 0;
+		int pageGroupEnd = 0;
+		int pageStartNum = 0;
 		
 		//현재 페이지 번호
 		String pg = req.getParameter("pg");
-		if(pg != null) {
+		if(pg != null){
 			currentPage = Integer.parseInt(pg);
 		}
-		//현재 페이지의 리스트 idx (ex:1페이지 : 0~10 2페이지 : 10~20...)
+		
+		//현재 페이지 그룹 (ex: 1~10 11~20 21~30)
+		currentPageGroup = (int)Math.ceil(currentPage / 10.0);
+		pageGroupStart = (currentPageGroup -1) * 10 + 1; //시작번호
+		pageGroupEnd= currentPageGroup * 10; //끝번호
+		//전체 게시물 갯수
+		total = dao.selectCountTotal(cate);
+		//마지막 페이지 번호
+		if(total % 10 == 0){
+			lastPageNum = total / 10;
+		}else{
+			lastPageNum = total / 10 +1;
+		}
+		if(pageGroupEnd > lastPageNum){
+			pageGroupEnd = lastPageNum;
+		}
+		//게시글 번호
+		pageStartNum = total - start;
+		
+		//글 번호 인덱스 (ex:1페이지=0부터, 2페이지=10부터)
 		start = (currentPage - 1) * 10;
 		
 		List<ArticleVO> vo = dao.selectArticles(cate, start);
 		req.setAttribute("vo", vo);
+		
+		req.setAttribute("pageGroupStart", pageGroupStart);
+		req.setAttribute("pageGroupEnd", pageGroupEnd);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("lastPageNum", lastPageNum);
+		req.setAttribute("pageStartNum", pageStartNum);
+		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/list.jsp");
 		dispatcher.forward(req, resp);		

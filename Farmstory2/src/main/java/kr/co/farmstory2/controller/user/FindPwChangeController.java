@@ -9,15 +9,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
 import kr.co.farmstory2.dao.UserDAO;
 
 
-@WebServlet("/board/user/findPwChange.do")
-public class FindPwChange extends HttpServlet {
+@WebServlet("/user/findPwChange.do")
+public class FindPwChangeController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
