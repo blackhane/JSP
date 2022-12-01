@@ -18,21 +18,27 @@
 				data : {'no' : no},
 				dataType : 'json',
 				success : function(data){
-					console.log(data.result)
-					if(data.result < 1){
-						let comment = "<p>등록된 댓글이 없습니다.</p>";
+					console.log(data)
+					if(data.result == null){
+						let	tag = "<p class='empty'>등록된 댓글이 없습니다.</p>";
+						$('.commentList').append(tag);
 					}else{
-						let comment = "<article>";
-							comment += "<span class='nick'>${comment.nick}</span>";
-							comment += "<span class='date'>${comment.rdate}</span>";
-							comment += "<p class='content'>${comment.content}</p>";
-							comment += "<c:if test='${sessUser.uid eq comment.uid}'>";
-							comment += "<div><a href='#' class='remove'>삭제</a>";
-							comment += "<a href='#' class='modify'>수정</a></div>";
-							comment += "</c:if>";
-							comment += "</article>";
+						for(let reply of data){
+							let tag = "<article>";
+								tag += "<span class='nick'>"+reply.nick+"</span>";
+								tag += "<span class='date'>"+reply.rdate+"</span>";
+								tag += "<p class='content'>"+reply.content+"</p>";
+								tag += "<c:if test='${sessUser.uid eq "+reply.uid+"}'>";
+								tag += "<div>";
+								tag += "<a href='#' class='remove'>삭제</a>";
+								tag += "<a href='#' class='modify'>수정</a>";
+								tag += "</div>";
+								tag += "</c:if>";
+								tag += "</article>";
+							$('.commentList').append(tag);
+						}
 					}
-					$('.commentList').appent(comment);
+					
 				}
 			});
 		}
@@ -122,6 +128,7 @@
 		            </article>
 	            </c:forEach>
             </c:if>
+            
         </section>
 
         <!-- 댓글쓰기 -->

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.farmstory2.dao.ArticleDAO;
+import kr.co.farmstory2.vo.ArticleVO;
+
 @WebServlet("/board/view.do")
 public class ViewController extends HttpServlet {
 
@@ -20,6 +23,17 @@ public class ViewController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String group = req.getParameter("group");
+		String cate = req.getParameter("cate");
+		String no = req.getParameter("no");
+		
+		ArticleDAO dao = ArticleDAO.getInstance();
+		ArticleVO vo = dao.selectArticle(no);
+		dao.updateArticleHit(no);
+		
+		req.setAttribute("vo", vo);
+		req.setAttribute("group", group);
+		req.setAttribute("cate", cate);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/view.jsp");
 		dispatcher.forward(req, resp);		

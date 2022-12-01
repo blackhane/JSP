@@ -35,10 +35,8 @@ public class CommentController extends HttpServlet {
 		String jsonResult = gson.toJson(comments);
 		System.out.println(jsonResult);
 		
-		resp.setContentType("application/json; charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(jsonResult);
-		writer.flush();
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

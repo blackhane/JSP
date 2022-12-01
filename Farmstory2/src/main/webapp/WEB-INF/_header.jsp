@@ -25,7 +25,7 @@
         });
     </script>
 	<script>
-		let Code = ${param.Code};
+		let Code = "${param.Code}";
 		
 		if(Code == 100){
 			alert("등록되지 않은 회원입니다.\n아이디와 비밀번호를 확인해주십시요.");
@@ -36,14 +36,17 @@
 		if(Code == 102){
 			alert("로그아웃이 정상처리 되었습니다.");
 		}
+		if(Code == 103){
+			alert("아직 개설되지 않은 게시판입니다.");
+		}
 	</script>
 </head>
 <body>
     <div id="wrapper">
         <header>
-            <a href="/Farmstory2/" class="logo"><img src="/Farmstory2/img/logo.png" alt="로고"/></a>
+            <a href="/Farmstory2/index.do" class="logo"><img src="/Farmstory2/img/logo.png" alt="로고"/></a>
             <p>
-                <a href="/Farmstory2/">HOME |</a>
+                <a href="/Farmstory2/index.do">HOME |</a>
                 <c:choose>
                 	<c:when test="${empty sessUser}">
 		                <a href="/Farmstory2/board/user/login.do">로그인 |</a>
@@ -53,15 +56,15 @@
                 		<a href="/Farmstory2/board/user/logout.do">로그아웃 |</a>
                 	</c:otherwise>
                 </c:choose>
-                <a href="#">고객센터</a>
+                <a href="/Farmstory2/index.do?Code=103">고객센터</a>
             </p>
             <img src="/Farmstory2/img/head_txt_img.png" alt="3만원 이상 무료배송"/>
             
             <ul class="gnb">
                 <li><a href="/Farmstory2/introduction/hello.do">팜스토리소개</a></li>
-                <li><a href="/Farmstory2/board/list.do"><img src="/Farmstory2/img/head_menu_badge.png" alt="30%"/>장보기</a></li>
-                <li><a href="/Farmstory2/board/list.do">농작물이야기</a></li>
-                <li><a href="/Farmstory2/board/list.do">이벤트</a></li>
-                <li><a href="/Farmstory2/board/list.do">커뮤니티</a></li>
+                <li><a href="/Farmstory2/board/list.do?group=market&cate=market"><img src="/Farmstory2/img/head_menu_badge.png" alt="30%"/>장보기</a></li>
+                <li><a href="/Farmstory2/board/list.do?group=croptalk&cate=story">농작물이야기</a></li>
+                <li><a href="/Farmstory2/board/list.do?group=event&cate=event">이벤트</a></li>
+                <li><a href="/Farmstory2/board/list.do?group=community&cate=notice">커뮤니티</a></li>
             </ul>
         </header>
