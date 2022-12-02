@@ -31,14 +31,13 @@ public class ViewController extends HttpServlet {
 		req.setAttribute("pg", pg);
 		
 		String no = req.getParameter("no");
+		req.setAttribute("no", no);
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
 		ArticleVO vo = dao.selectArticle(no);
 		dao.updateArticleHit(no);
 		
 		req.setAttribute("vo", vo);
-		req.setAttribute("group", group);
-		req.setAttribute("cate", cate);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/view.jsp");
 		dispatcher.forward(req, resp);		

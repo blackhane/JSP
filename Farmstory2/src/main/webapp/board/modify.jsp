@@ -2,10 +2,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/_header.jsp"/>
 <jsp:include page="./_${group}.jsp"/>
+<script>
+	$(function(){
+		
+		$('.btnComplete').click(function(){
+			
+			let chk = confirm("게시글을 수정하시겠습니까?");
+			if(chk){
+				return true;
+			}else{
+				return false;
+			}
+			return false;
+		});
+		
+	})
+</script>
 			<main id="board">
 			    <section class="modify">
 			
-			        <form action="/Farmstory2/board/modify.do" method="post">
+			        <form action="/Farmstory2/board/modify.do" method="post" enctype="multipart/form-data">
 			        <input type="hidden" name="no" value="${vo.no}">
 			        <input type="hidden" name="group" value="${group}">
 			        <input type="hidden" name="cate" value="${cate}">

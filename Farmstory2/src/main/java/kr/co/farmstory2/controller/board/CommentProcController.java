@@ -1,43 +1,45 @@
-package kr.co.farmstory2.controller.user;
+package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import kr.co.farmstory2.dao.UserDAO;
+import kr.co.farmstory2.dao.ArticleDAO;
 
-
-@WebServlet("/board/user/findPw.do")
-public class FindPw extends HttpServlet {
+@WebServlet("/board/commentProc.do")
+public class CommentProcController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public void init() throws ServletException {
-	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		session.removeAttribute("findUser");
+		String no = req.getParameter("no");
+		String parent = req.getParameter("parent");
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/user/findPw.jsp");
-		dispatcher.forward(req, resp);
+		ArticleDAO dao = ArticleDAO.getInstance();
+		int result = dao.deleteComment(no, parent);
+		dao.updateCommentHitDown(no);
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		resp.setContentType("application/json;charset=UTF-8");
+		PrintWriter writer = resp.getWriter();
+		writer.print(json.toString());
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String uid =req.getParameter("uid");
-		String email =req.getParameter("email");
-	
-		int result = UserDAO.getInstance().selectFindPw(uid, email);
+		String content = req.getParameter("content");
+		String no = req.getParameter("no");
+		
+		int result = ArticleDAO.getInstance().updateComment(content, no);
 		
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);

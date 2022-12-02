@@ -1,15 +1,11 @@
 package kr.co.farmstory2.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 import kr.co.farmstory2.db.DBHelper;
 import kr.co.farmstory2.db.Sql;
@@ -73,6 +69,20 @@ public class ArticleDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 	}
+	public void insertFile(String parent, String fname, String newFname) {
+		try {
+			logger.info("insertFile start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.INSERT_FILE);
+			psmt.setString(1, parent);
+			psmt.setString(2, newFname);
+			psmt.setString(3, fname);
+			psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	//댓글쓰기
 	public int insertComment(String parent, String content, String uid, String regip) {
@@ -128,13 +138,14 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	//메인화면 최신글 보기 (농작물이야기)
-	public List<ArticleVO> selectLatest() {
+	public List<ArticleVO> selectLatest(String cate) {
 		List<ArticleVO> latest = new ArrayList<>();
 		try {
 			logger.debug("selectLatest Start");
 			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(Sql.SELECT_LATESTS);
+			psmt = conn.prepareStatement(Sql.SELECT_LATESTS);
+			psmt.setString(1, cate);
+			rs = psmt.executeQuery();
 			while(rs.next()) {
 				ArticleVO ab = new ArticleVO();
 				ab.setNo(rs.getInt(1));
@@ -151,12 +162,13 @@ public class ArticleDAO extends DBHelper {
 	}
 	
 	//메인화면 최신글 보기 (커뮤니티)
-	public List<ArticleVO> selectLatest2(){
+	public List<ArticleVO> selectLatest2(String cate){
 		List<ArticleVO> latest = new ArrayList<>();
 		try {
 			logger.debug("selectLatest2 Start");
 			conn = getConnection();
 			psmt = conn.prepareStatement(Sql.SELECT_LATEST2);
+			psmt.setString(1, cate);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				ArticleVO ab = new ArticleVO();
@@ -242,6 +254,7 @@ public class ArticleDAO extends DBHelper {
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+		logger.debug("articles : " + articles.size());
 		return articles;
 	}
 	
@@ -297,8 +310,27 @@ public class ArticleDAO extends DBHelper {
 		return result;
 	}
 	
+	public int selectCountTotal(String cate, String search) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			logger.debug("selectCountTotal Start");
+			psmt = conn.prepareStatement(Sql.SELECT_COUNT_TOTAL_BY_KEYWORD);
+			psmt.setString(1, "%"+search+"%");
+			psmt.setString(2, cate);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
 	//게시물리스트(검색)
-	public List<ArticleVO> selectArticleByKeyWord(String keyword) {
+	public List<ArticleVO> selectArticleByKeyWord(String cate, int start, String keyword) {
 		List<ArticleVO> articles = new ArrayList<>();
 		try {
 			logger.info("selectArticleByKeyWord start");
@@ -306,6 +338,8 @@ public class ArticleDAO extends DBHelper {
 			psmt = conn.prepareStatement(Sql.SELECT_ARTICLE_BY_KEYWORD);
 			psmt.setString(1, "%"+keyword+"%");
 			psmt.setString(2, "%"+keyword+"%");
+			psmt.setString(3, cate);
+			psmt.setInt(4, start);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				ArticleVO vo = new ArticleVO();
@@ -344,7 +378,7 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
-	//댓글수
+	//댓글수+1
 	public void updateCommentHit(String no) {
 		try {
 			logger.info("updateCommentHit start");
@@ -358,9 +392,22 @@ public class ArticleDAO extends DBHelper {
 		}
 	}
 	
+	//댓글수-1
+	public void updateCommentHitDown(String no) {
+		try {
+			logger.info("updateCommentHitDown start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_COMMENT_HIT_DOWN);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	//글수정
-	public int updateArticle(String no, String title, String content, String fname) {
-		int parent = 0;
+	public void updateArticle(String no, String title, String content) {
 		try {
 			logger.info("updateArticle start");
 			conn = getConnection();
@@ -368,13 +415,30 @@ public class ArticleDAO extends DBHelper {
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setString(3, no);
-			psmt.setInt(4, (fname==null) ? 0 : 1);
-			parent = psmt.executeUpdate();
+			psmt.executeUpdate();
 			close();
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
-		return parent;
+	}
+	
+	//댓글수정
+	public int updateComment(String content, String no) {
+		int result = 0;
+		
+		try {
+			conn = getConnection();
+			psmt  = conn.prepareStatement(Sql.UPDATE_COMMENT);
+			psmt.setString(1, content);
+			psmt.setString(2, no);
+			result = psmt.executeUpdate();
+			psmt.close();
+			conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	//글삭제
@@ -416,5 +480,25 @@ public class ArticleDAO extends DBHelper {
 		}
 		logger.debug("newName : " + newName);
 		return newName;
+	}
+	
+	//댓글 삭제
+	public int deleteComment(String no,String parent) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.DELETE_COMMENT);
+			PreparedStatement psmt2 = conn.prepareStatement(Sql.UPDATE_COMMENT_HIT_DOWN);
+			psmt.setString(1, no);
+			psmt2.setString(1, parent);
+			psmt2.executeUpdate();
+			result = psmt.executeUpdate();
+			psmt2.close();
+			close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

@@ -46,6 +46,7 @@ public class FindId extends HttpServlet {
 			json.addProperty("result", 0);
 		}
 		
+		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
 	}

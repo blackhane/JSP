@@ -27,6 +27,7 @@ public class CheckUid extends HttpServlet {
 		JsonObject json = new JsonObject();
 		json.addProperty("reulst", result);
 		
+		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
 	}

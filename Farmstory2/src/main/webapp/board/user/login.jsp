@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/_header.jsp"/>
         <main id="user">
             <section class="login">
@@ -6,7 +7,7 @@
                     <table border="0">
                         <tr>
                             <td><img src="../img/login_ico_id.png" alt="아이디"/></td>
-                            <td><input type="text" name="uid" placeholder="아이디 입력"/></td>
+                            <td><input type="text" name="uid" placeholder="아이디 입력" value="${cookie.loginId.value}"/></td>
                         </tr>
                         <tr>
                             <td><img src="../img/login_ico_pw.png" alt="비밀번호"/></td>
@@ -14,7 +15,7 @@
                         </tr>
                     </table>
                     <input type="submit" value="로그인" class="btnLogin"/>
-                    <label><input type="checkbox" name="saveUid">아이디 기억하기</label>
+                    <label><input type="checkbox" name="saveUid" value="Y" <c:if test="${not empty cookie.loginId.value}">checked</c:if>>아이디 기억하기</label>
                 </form>
                 <div>
                     <h3>회원 로그인 안내</h3>

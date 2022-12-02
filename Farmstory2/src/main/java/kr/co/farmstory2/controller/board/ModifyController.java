@@ -60,30 +60,43 @@ public class ModifyController extends HttpServlet {
 		String content= mr.getParameter("content");
 		String no = mr.getParameter("no");
 		
+		ArticleDAO dao = ArticleDAO.getInstance();
+		//제목, 내용 수정
+		dao.updateArticle(no, title, content);
+		
 		String fname = mr.getFilesystemName("file");
 		
-		//기존파일 삭제 처리 로직 추가//
-		//기존파일 삭제 처리 로직 추가//
-		
-		ArticleDAO dao = ArticleDAO.getInstance();
-		int parent = dao.updateArticle(no, title, content, fname);
-		
-		//파일처리
-		if(fname != null){
-			int idx = fname.lastIndexOf(".");
-			String ext = fname.substring(idx);
-			String now = new SimpleDateFormat("yyyyMMddHHmmss_").format(new Date());
-			String newFname = now+ext;
+		if(fname != null) {
 			
-			File oriFile = new File(savePath+"/"+fname);
-			File newFile = new File(savePath+"/"+newFname);
+			//파일 DB삭제 및 저장된 파일 이름 가져오기
+			String fileName = dao.deleteFile(no);
 			
-			oriFile.renameTo(newFile);
+			//파일 디렉토리에서 삭제
+			if(fileName != null){
+				String path = req.getRealPath("/file");
+				File file = new File(path,fileName);
+				if(file.exists()){
+					file.delete();	
+				}
+			}
 			
-			dao.insertFile(parent, fname, newFname);
+			//새로운 파일
+			if(fname != null){
+				int idx = fname.lastIndexOf(".");
+				String ext = fname.substring(idx);
+				String now = new SimpleDateFormat("yyyyMMddHHmmss_").format(new Date());
+				String newFname = now+ext;
+				
+				File oriFile = new File(savePath+"/"+fname);
+				File newFile = new File(savePath+"/"+newFname);
+				
+				oriFile.renameTo(newFile);
+				String parent = mr.getParameter("no");
+				dao.insertFile(parent, fname, newFname);
+			}
 		}
 		
-		resp.sendRedirect("/Farmstory2/board/view.do?group="+group+"&cate="+cate+"&pg="+pg+"&no="+no);
+		resp.sendRedirect("/Farmstory2/board/view.do?group="+group+"&cate="+cate+"&pg="+pg+"&no="+no+"&Code=104");
 		
 	}
 }

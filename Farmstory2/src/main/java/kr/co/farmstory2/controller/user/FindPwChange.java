@@ -42,6 +42,7 @@ public class FindPwChange extends HttpServlet {
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
+		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
 	}

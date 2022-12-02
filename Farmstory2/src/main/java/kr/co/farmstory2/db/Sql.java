@@ -69,6 +69,9 @@ public class Sql {
 	
 	//전체 게시물 갯수 (페이징)
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0 and `cate`=?";
+	
+	//전체 게시물 개수 (검색)
+	public static final String SELECT_COUNT_TOTAL_BY_KEYWORD = "SELECT COUNT(`no`) FROM `board_article` WHERE `parent`=0 and (`title` LIKE ? ) AND `cate`=?";
 		
 	//파일쓰기
 	public static final String INSERT_FILE = "INSERT INTO `board_file` SET "
@@ -84,7 +87,7 @@ public class Sql {
 	public static final String  SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 AND `cate`=? ORDER BY `no` DESC LIMIT ?, 10";
 
 	//리스트 (검색기능)
-	public static final String  SELECT_ARTICLE_BY_KEYWORD = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?) ORDER BY `no` DESC";
+	public static final String  SELECT_ARTICLE_BY_KEYWORD = "SELECT a.*, b.`nick` FROM `board_article` AS a JOIN `board_users` AS b ON a.uid = b.uid WHERE `parent`=0 AND (`title` LIKE ? OR `nick` LIKE ?) AND `cate`=? ORDER BY `no` DESC LIMIT ?, 10";
 	
 	//글보기
 	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` FROM `board_article` AS a "
@@ -92,14 +95,10 @@ public class Sql {
 																			+ "ON a.`no`=b.`parent` WHERE `no`=?";
 
 	//메인화면 최신글 보기 (농작물리스트)
-	public static final String SELECT_LATESTS  = "(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='grow' ORDER BY `no` DESC LIMIT 5) "
-										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='school' ORDER BY `no` DESC LIMIT 5) "
-										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='story' ORDER BY `no` DESC LIMIT 5) ";
+	public static final String SELECT_LATESTS  = "SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`=? ORDER BY `no` DESC LIMIT 5";
 
 	//메인화면 최신글 보기 (커뮤니티)
-	public static final String SELECT_LATEST2 = "(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='notice' ORDER BY `no` DESC LIMIT 3) "
-										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='qna' ORDER BY `no` DESC LIMIT 3) "
-										+ "UNION (SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='faq' ORDER BY `no` DESC LIMIT 3) ";
+	public static final String SELECT_LATEST2 = "SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`=? ORDER BY `no` DESC LIMIT 3";
 	
 	//댓글 리스트
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
@@ -119,7 +118,7 @@ public class Sql {
 	public static final String UPDATE_COMMENT_HIT_DOWN = "UPDATE `board_article` SET `comment` = `comment`-1 WHERE `no`=?";
 	
 	//글수정
-	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `fname`=?, `rdate`=NOW() WHERE `no`=?";
+	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
 	//댓글수정
 	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?, `rdate`=NOW() WHERE `no`=?";

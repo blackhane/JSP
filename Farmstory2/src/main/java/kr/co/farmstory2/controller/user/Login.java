@@ -5,12 +5,14 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.co.farmstory2.dao.UserDAO;
+import kr.co.farmstory2.db.CookieManager;
 import kr.co.farmstory2.vo.UserVO;
 
 @WebServlet("/board/user/login.do")
@@ -34,10 +36,17 @@ public class Login extends HttpServlet {
 		
 		String uid = req.getParameter("uid");
 		String pass = req.getParameter("pass");
+		String saveUid = req.getParameter("saveUid");
 	
 		UserVO vo = UserDAO.getInstance().selectUser(uid, pass);
 		
 		if(vo != null) {
+			
+			if(saveUid != null && saveUid.equals("Y")) {
+				CookieManager.makeCookie(resp, "loginId", uid, 60*60*24);
+			}else {
+				CookieManager.deleteCookie(resp, "loginId");
+			}
 			
 			HttpSession session = req.getSession();
 			session.setAttribute("sessUser", vo);

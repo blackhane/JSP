@@ -78,6 +78,7 @@ public class EmailAuth extends HttpServlet {
 		}
 		
 		//json 출력
+		resp.setContentType("application/json;charset=UTF-8");
 		JsonObject json = new JsonObject();
 		json.addProperty("status", status);
 		json.addProperty("code", code);

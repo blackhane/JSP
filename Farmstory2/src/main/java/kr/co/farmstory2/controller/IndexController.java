@@ -25,38 +25,29 @@ public class IndexController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ArticleDAO dao = ArticleDAO.getInstance();
+		
+		//카테고리
+		String cate1 = "grow";
+		String cate2 = "school";
+		String cate3 = "story";
+		String cate4 = "notice";
+		String cate5 = "qna";
+		String cate6 = "faq";
 		//최근 게시물 (농작물이야기)
-		List<ArticleVO> articles = dao.selectLatest();
+		List<ArticleVO> articles1 = dao.selectLatest(cate1);
+		List<ArticleVO> articles2 = dao.selectLatest(cate2);
+		List<ArticleVO> articles3 = dao.selectLatest(cate3);
 		//최근 게시물 (커뮤니티)
-		List<ArticleVO> articles2 = dao.selectLatest2();
+		List<ArticleVO> articles4 = dao.selectLatest2(cate4);
+		List<ArticleVO> articles5 = dao.selectLatest2(cate5);
+		List<ArticleVO> articles6 = dao.selectLatest2(cate6);
 		
-		if(articles.size() < 15){
-			ArticleVO article = new ArticleVO();
-			article.setNo(0);
-			article.setTitle("제목");
-			article.setRdate("작성일");
-			
-			for(int i=0; i<15; i++){
-				articles.add(article);
-			}
-		}
-		if(articles2.size() < 9){
-			ArticleVO article = new ArticleVO();
-			article.setNo(0);
-			article.setTitle("제목");
-			article.setRdate("작성일");
-			
-			for(int i=0; i<9; i++){
-				articles.add(article);
-			}
-		}
-		
-		req.setAttribute("articles1", articles.subList(0, 5));
-		req.setAttribute("articles2", articles.subList(5, 10));
-		req.setAttribute("articles3", articles.subList(10, 15));
-		req.setAttribute("articles4", articles2.subList(0, 3));
-		req.setAttribute("articles5", articles2.subList(3, 6));
-		req.setAttribute("articles6", articles2.subList(6, 9));
+		req.setAttribute("articles1", articles1);
+		req.setAttribute("articles2", articles2);
+		req.setAttribute("articles3", articles3);
+		req.setAttribute("articles4", articles4);
+		req.setAttribute("articles5", articles5);
+		req.setAttribute("articles6", articles6);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/index.jsp");
 		dispatcher.forward(req, resp);		

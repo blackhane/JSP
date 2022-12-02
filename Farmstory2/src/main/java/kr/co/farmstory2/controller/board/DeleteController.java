@@ -44,6 +44,6 @@ public class DeleteController extends HttpServlet {
 			}
 		}
 		
-		resp.sendRedirect("/Farmstory2/board/list.do?group=" + group + "&cate=" + cate + "&pg=" +pg);
+		resp.sendRedirect("/Farmstory2/board/list.do?group=" + group + "&cate=" + cate + "&pg=" +pg+ "&Code=105");
 	}
 }

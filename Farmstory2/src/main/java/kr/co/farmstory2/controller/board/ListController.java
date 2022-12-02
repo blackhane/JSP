@@ -1,6 +1,7 @@
 package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -29,9 +30,11 @@ public class ListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
+		String search = req.getParameter("search");
 		
 		req.setAttribute("group", group);
-		req.setAttribute("cate", cate);
+		req.setAttribute("cate", cate);		
+		req.setAttribute("search", search);		
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
 		
@@ -55,8 +58,14 @@ public class ListController extends HttpServlet {
 		currentPageGroup = (int)Math.ceil(currentPage / 10.0);
 		pageGroupStart = (currentPageGroup -1) * 10 + 1; //시작번호
 		pageGroupEnd= currentPageGroup * 10; //끝번호
+		
 		//전체 게시물 갯수
-		total = dao.selectCountTotal(cate);
+		if(search == null) {
+			total = dao.selectCountTotal(cate);
+		}else {
+			total = dao.selectCountTotal(cate, search);
+		}
+		
 		//마지막 페이지 번호
 		if(total % 10 == 0){
 			lastPageNum = total / 10;
@@ -66,27 +75,28 @@ public class ListController extends HttpServlet {
 		if(pageGroupEnd > lastPageNum){
 			pageGroupEnd = lastPageNum;
 		}
-		//게시글 번호
-		pageStartNum = total - start;
 		
 		//글 번호 인덱스 (ex:1페이지=0부터, 2페이지=10부터)
 		start = (currentPage - 1) * 10;
 		
-		List<ArticleVO> vo = dao.selectArticles(cate, start);
+		List<ArticleVO> vo = new ArrayList<>();
+		
+		if(search == null) {
+			vo = dao.selectArticles(cate, start);
+		}else {
+			vo = dao.selectArticleByKeyWord(cate, start, search);
+		}
 		req.setAttribute("vo", vo);
 		
 		req.setAttribute("pageGroupStart", pageGroupStart);
 		req.setAttribute("pageGroupEnd", pageGroupEnd);
 		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("lastPageNum", lastPageNum);
-		req.setAttribute("pageStartNum", pageStartNum);
+		req.setAttribute("total", total);
+		req.setAttribute("start", start);
 		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/list.jsp");
 		dispatcher.forward(req, resp);		
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
 }

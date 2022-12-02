@@ -212,6 +212,7 @@
 #board > .list > .page {
     text-align: center;
     margin-top: 10px;
+    height : 32px;
 }
 #board > .list > .page > a {
     display: inline-block;
