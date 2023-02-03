@@ -46,6 +46,6 @@ public class MyInfoController extends HttpServlet {
 		
 		UserDAO.getInstance().updateUser(vo);
 		
-		resp.sendRedirect("/JBoard2/list.do");
+		resp.sendRedirect("/JBoard2/list.do?pg=1");
 	}
 }

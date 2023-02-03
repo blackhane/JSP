@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.ExpandVetoException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -415,6 +417,20 @@ public class ArticleDAO extends DBHelper {
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setString(3, no);
+			psmt.executeUpdate();
+			close();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	//글수정시 파일 추가
+	public void updateArticleFile(String no) {
+		try {
+			logger.info("updateArticleFile start");
+			conn = getConnection();
+			psmt = conn.prepareStatement(Sql.UPDATE_ARTICLE_FILE);
+			psmt.setString(1, no);
 			psmt.executeUpdate();
 			close();
 		}catch(Exception e) {

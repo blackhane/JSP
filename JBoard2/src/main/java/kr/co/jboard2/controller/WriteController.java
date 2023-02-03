@@ -72,6 +72,6 @@ public class WriteController extends HttpServlet {
 			dao.insertFile(parent, fname, newFname);
 		}
 		
-		resp.sendRedirect("/JBoard2/list.do");
+		resp.sendRedirect("/JBoard2/list.do?pg=1");
 	}
 }

@@ -50,7 +50,7 @@ public class LogoutController extends HttpServlet {
 		//데이터베이스 쿠키제거
 		UserDAO.getInstance().updateUserSessionOut(uid);
 		
-		resp.sendRedirect("/JBoard2/user/login.do?code=102");
+		resp.sendRedirect("/JBoard2/user/login.do?Code=102");
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

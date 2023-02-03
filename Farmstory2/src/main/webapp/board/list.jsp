@@ -39,13 +39,13 @@
 			        </table>
 			        <div class="page">
 						<c:if test="${pageGroupStart gt 1}">
-			        		<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupStart-1}" class="prev">이전</a>
+			        		<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupStart-1}&search=${search}" class="prev">이전</a>
 			        	</c:if>
 			            <c:forEach var="num" begin="${pageGroupStart}" end="${pageGroupEnd}">
 			            	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${num}&search=${search}" class="num ${currentPage eq num ? 'current' : 'off' }">${num}</a>
 			            </c:forEach>
 			            <c:if test="${pageGroupEnd lt lastPageNum}">
-			            	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupEnd+1}" class="next">다음</a>
+			            	<a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=${pageGroupEnd+1}&search=${search}" class="next">다음</a>
 			            </c:if>
 			        </div>
 					<c:if test="${sessUser.uid ne null}">

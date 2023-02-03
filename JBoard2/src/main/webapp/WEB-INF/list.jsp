@@ -18,34 +18,40 @@
                 <th>조회</th>
             </tr>
             <c:choose>
-            	<c:when test="${empty articles }">
+            	<c:when test="${empty articles}">
             		<tr>
             			<td colspan="5">등록된 게시물이 없습니다.</td>
             		</tr>
             	</c:when>
             	<c:otherwise>
-            		<c:forEach var="article" items="${articles }">
+            		<c:set var="i" value="${total-start}"/>
+            		<c:forEach var="article" items="${articles}">
 			            <tr>
-			                <td>${article.no }</td>
-			                <td><a href="/JBoard2/view.do?no=${article.no }">${article.title } [${article.comment }]</a></td>
-			                <td>${article.nick }</td>
-			                <td>${article.rdate }</td>
-			                <td>${article.hit }</td>
+			                <td>${i}</td>
+			                <td><a href="/JBoard2/view.do?no=${article.no}&pg=${currentPage}">${article.title} [${article.comment}]</a></td>
+			                <td>${article.nick}</td>
+			                <td>${article.rdate}</td>
+			                <td>${article.hit}</td>
 			            </tr>
+			            <c:set var="i" value="${i-1}"/>
 		            </c:forEach>
             	</c:otherwise>
             </c:choose>
         </table>
 
         <div class="page">
-            <a href="#" class="prev">이전</a>
-            <a href="#" class="num current">1</a>
-            <a href="#" class="num">2</a>
-            <a href="#" class="num">3</a>
-            <a href="#" class="next">다음</a>
+        	<c:if test="${pageGroupStart gt 1}">
+            <a href="/JBoard2/list.do?pg=${pageGroupStart-1}&search=${search}" class="prev">이전</a>
+            </c:if>
+            <c:forEach var="num" begin="${pageGroupStart}" end="${pageGroupEnd}" >
+            	<a href="/JBoard2/list.do?pg=${num}&search=${search}" class="num ${currentPage eq num ? 'current' : 'off'}">${num}</a> 
+            </c:forEach>
+            <c:if test="${pageGroupEnd lt lastPageNum}">
+            <a href="/JBoard2/list.do?pg=${pageGroupEnd+1}&search=${search}" class="next">다음</a>
+            </c:if>
         </div>
 
-        <a href="./write.do" class="btn btnWrite">글쓰기</a>
+        <a href="/JBoard2/write.do" class="btn btnWrite">글쓰기</a>
         
     </section>
 </main>

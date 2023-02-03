@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -67,7 +66,7 @@ public class ModifyController extends HttpServlet {
 		String fname = mr.getFilesystemName("file");
 		
 		if(fname != null) {
-			
+			dao.updateArticleFile(no);
 			//파일 DB삭제 및 저장된 파일 이름 가져오기
 			String fileName = dao.deleteFile(no);
 			

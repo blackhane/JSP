@@ -22,6 +22,8 @@ public class DeleteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String no = req.getParameter("no");
+		String pg = req.getParameter("pg");
+		req.setAttribute("pg", pg);
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
 		dao.deleteArticle(no);
@@ -36,7 +38,7 @@ public class DeleteController extends HttpServlet {
 			}
 		}
 		
-		resp.sendRedirect("/JBoard2/list.do");
+		resp.sendRedirect("/JBoard2/list.do?pg="+pg+"&Code=105");
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

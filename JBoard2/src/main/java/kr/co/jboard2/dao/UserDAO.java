@@ -166,6 +166,7 @@ public class UserDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 		logger.debug("vo : " + vo);
+		logger.info("selectUserBySessId end");
 		return vo;
 	}
 	

@@ -16,6 +16,8 @@ import com.google.gson.JsonObject;
 import kr.co.jboard2.dao.ArticleDAO;
 import kr.co.jboard2.vo.ArticleVO;
 
+
+
 @WebServlet("/comment.do")
 public class CommentController extends HttpServlet {
 
@@ -26,15 +28,15 @@ public class CommentController extends HttpServlet {
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String no = req.getParameter("no");
+		String parent = req.getParameter("parent");
 		
-		List<ArticleVO> comments = ArticleDAO.getInstance().selectComment(no);
+		List<ArticleVO> comments = ArticleDAO.getInstance().selectComment(parent);
 		
 		Gson gson = new Gson();
 		
 		String jsonResult = gson.toJson(comments);
-		System.out.println(jsonResult);
 		
+		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(jsonResult);
 	}
@@ -53,6 +55,7 @@ public class CommentController extends HttpServlet {
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
+		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
 	}

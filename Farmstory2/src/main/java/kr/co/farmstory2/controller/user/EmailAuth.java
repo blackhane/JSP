@@ -36,8 +36,8 @@ public class EmailAuth extends HttpServlet {
 		//기본정보
 		String receiverEmail = req.getParameter("email");//수신자
 		
-		String sender = "whynotcry94@gmail.com";//발신자
-		String password = "ohszubjrgzvkwmhd"; //앱비밀번호
+		String sender = "";//발신자
+		String password = ""; //앱비밀번호
 		
 		String title = "Farmstory2 인증코드 입니다.";//메일 이름
 		String content = "인증코드 6자리는 " + code + " 입니다.";//메일 내용

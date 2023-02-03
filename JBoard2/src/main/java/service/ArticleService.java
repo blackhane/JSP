@@ -27,19 +27,22 @@ public enum ArticleService {
 		dao.insertFile(parent, newName, fname);
 	}
 	
-//	public int selectCountTotal() {
-//		return dao.selectCountTotal();
-//	}
-//	
+	public int selectCountTotal() {
+		return dao.selectCountTotal();
+	}
+	public int selectCountTotal(String keyword) {
+		return dao.selectCountTotal(keyword);
+	}
+	
 //	public ArticleVO selectArticle(String no) {
 //		return dao.selectArticle(no);
 //	}
-	public List<ArticleVO> selectArticles() {
-		return dao.selectArticles();
+	public List<ArticleVO> selectArticles(int start) {
+		return dao.selectArticles(start);
 	}
 	
-	public List<ArticleVO> selectArticleByKeyWord(String keyword) {
-		return dao.selectArticleByKeyWord(keyword);
+	public List<ArticleVO> selectArticleByKeyWord(String keyword, int start) {
+		return dao.selectArticleByKeyWord(keyword, start);
 	}
 	
 	public void updateArticle() {}

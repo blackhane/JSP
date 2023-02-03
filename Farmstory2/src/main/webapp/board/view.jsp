@@ -3,7 +3,6 @@
 <jsp:include page="/WEB-INF/_header.jsp"/>
 <jsp:include page="./_${group}.jsp"/>
 <script>
-
 	$(function(){
 		//시작과 동시에 리스트 출력
 		showComment();
@@ -11,7 +10,7 @@
 		function showComment(){
 			let parent = "${no}";
 			console.log(parent);
-
+	
 			let sessId = '${sessUser.uid}';
 			console.log(sessId);
 			
@@ -87,7 +86,7 @@
 		//댓글 수정
 		$(document).on('click','.modify',function(e){
 			e.preventDefault();
-
+	
 			let txt = $(this).text();
 			let p = $(this).parent().prev();
 			

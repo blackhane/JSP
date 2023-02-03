@@ -23,10 +23,6 @@ public class ListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	public void init() throws ServletException {
-	}
-
-	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
@@ -87,14 +83,12 @@ public class ListController extends HttpServlet {
 			vo = dao.selectArticleByKeyWord(cate, start, search);
 		}
 		req.setAttribute("vo", vo);
-		
 		req.setAttribute("pageGroupStart", pageGroupStart);
 		req.setAttribute("pageGroupEnd", pageGroupEnd);
 		req.setAttribute("currentPage", currentPage);
 		req.setAttribute("lastPageNum", lastPageNum);
 		req.setAttribute("total", total);
 		req.setAttribute("start", start);
-		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/list.jsp");
 		dispatcher.forward(req, resp);		

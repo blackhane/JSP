@@ -40,7 +40,8 @@ public class LoginController extends HttpServlet {
 		
 		if(user == null) {
 			//회원 X
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/login.jsp?code=101");
+			req.setAttribute("Code", 100);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/login.jsp");
 			dispatcher.forward(req, resp);
 		}else {
 			//회원 O
@@ -61,7 +62,7 @@ public class LoginController extends HttpServlet {
 				dao.updateUserForSession(uid, sessId);
 			}
 			
-			resp.sendRedirect("/JBoard2/list.do");
+			resp.sendRedirect("/JBoard2/list.do?pg=1");
 		}
 	}
 }

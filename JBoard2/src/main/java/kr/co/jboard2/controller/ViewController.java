@@ -20,11 +20,11 @@ public class ViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void init() throws ServletException {
-	}
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		String no = req.getParameter("no");
+		String pg = req.getParameter("pg");
+		req.setAttribute("no", no);
+		req.setAttribute("pg", pg);
 		
 		ArticleDAO dao = ArticleDAO.getInstance();
 		ArticleVO articles = dao.selectArticle(no);
@@ -34,8 +34,5 @@ public class ViewController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/view.jsp");
 		dispatcher.forward(req, resp);
-	}
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
 }

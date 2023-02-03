@@ -120,6 +120,9 @@ public class Sql {
 	//글수정
 	public static final String UPDATE_ARTICLE = "UPDATE `board_article` SET `title`=?, `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
+	//글수정시 파일 추가
+	public static final String UPDATE_ARTICLE_FILE = "UPDATE `board_article` SET `file`=1 WHERE `no`=?";
+	
 	//댓글수정
 	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
